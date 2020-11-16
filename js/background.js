@@ -58,62 +58,68 @@ setInterval(() => {
 			return;
 		}
 
-		checkQuality();
+		checkQuality(false);
 		checkBuild();
 	});
 
 }, interval);
 
-function checkQuality() {
+function checkQuality(requireInteraction) {
 	startChecking(() => {
 		const qualityChecker = new QualityChecker();
 
 		qualityChecker.startCheck()
 			.then(responses => {
-
 				let hasError = false;
 				responses.map(response => {
 					console.error(response)
 					if (response.hasError) {
 						hasError = true;
 						//messages += '[' + response.componentName + '] Quality Failed' + '\n';
-						showBgNotification('', '[' + response.componentName + '] Quality Failed', true, '/images/Angry-Face.png');
+						showBgNotification('', '[' + response.componentName + '] Quality Failed', requireInteraction, '/images/Angry-Face.png');
+					} else {
+						showBgNotification('', '[' + response.componentName + '] Quality Success', requireInteraction, '/images/happy.png');
 					}
 				});
 
 				if (responses.length === 0) {
-					showBgNotification('', '설정된 Quality 항목이 없습니다.', false);
+					showBgNotification('', '설정된 Quality 항목이 없습니다.', requireInteraction);
 				} else {
 					if (!hasError) {
-						showBgNotification('', 'Quality All passed', false);
+						showBgNotification('', 'Quality All passed', requireInteraction);
 					}
 				}
 			});
 	});
 }
 
-function checkBuild() {
+function checkBuild(requireInteraction) {
 	startChecking(() => {
 
 		const buildChecker = new BuildChecker();
 
 		buildChecker.startCheck()
 			.then(responses => {
+
+				console.error('checkBuild response ________ ')
+				console.error(responses)
+
 				let hasError = false;
-				let messages = '';
 				responses.map(response => {
 					if (response.hasError) {
 						hasError = true;
 						//messages += '[' + response.componentName + '] Failed' + '\n';
-						showBgNotification('', '[' + response.componentName + '] Build failed.', true, '/images/Angry-Face.png');
+						showBgNotification('', '[' + response.componentName + '] Build failed.', requireInteraction, '/images/Angry-Face.png');
+					} else {
+						showBgNotification('', '[' + response.componentName + '] Quality Success', requireInteraction, '/images/happy.png');
 					}
 				});
 
 				if (responses.length === 0) {
-					showBgNotification('', '설정된 Build 항목이 없습니다.', false);
+					showBgNotification('', '설정된 Build 항목이 없습니다.', requireInteraction);
 				} else {
 					if (!hasError) {
-						showBgNotification('', 'All Build success', false);
+						showBgNotification('', 'All Build success', requireInteraction);
 					}
 				}
 			});
@@ -151,9 +157,9 @@ let saveStorageSync = {};
 const receiveMessage = function(request, sender, sendResponse)
 {
 	if (request.action === 'checkQuality') {
-		checkQuality();
+		checkQuality(false);
 	} else if (request.action === 'checkBuild') {
-		checkBuild();
+		checkBuild(false);
 	} else if (request.action === 'openWindow') {
 		window.open(request.url);
 	}

@@ -7,7 +7,7 @@ class SonarqubeParser {
 		let codeSmellHistory = [];
 		let bugsHistory = [];
 		let vulnerabilityHistory = [];
-		let duplicatedLineDensitiy = [];
+		/*let duplicatedLineDensity = [];*/
 
 		if (!response.hasOwnProperty('measures')) {
 			return {};
@@ -26,9 +26,9 @@ class SonarqubeParser {
 				bugsHistory = measure.history
 			} else if (measure.metric === "vulnerabilities") {
 				vulnerabilityHistory = measure.history
-			} else if (measure.metric === "duplicated_lines_density") {
-				duplicatedLineDensitiy = measure.history
-			}
+			} /*else if (measure.metric === "duplicated_lines_density") {
+				duplicatedLineDensity = measure.history
+			}*/
 		});
 
 
@@ -38,7 +38,7 @@ class SonarqubeParser {
 		const codeSmell = codeSmellHistory.pop().value;
 		const bugs = bugsHistory.pop().value;
 		const vulnerability = vulnerabilityHistory.pop().value;
-		const duplicatedLine = duplicatedLineDensitiy.pop().value;
+		/*const duplicatedLine = duplicatedLineDensitiy.pop().value;*/
 
 		return {
 			coverage,
@@ -47,7 +47,7 @@ class SonarqubeParser {
 			codeSmell,
 			bugs,
 			vulnerability,
-			duplicatedLine
+			/*duplicatedLine*/
 		};
 	}
 }

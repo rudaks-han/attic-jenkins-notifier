@@ -62,9 +62,9 @@
 		</div>
 	</div>
 
-
-
-
+	<h4 class="ui dividing header">모듈 설정
+		<span class="comment">(체크할 모듈의 사용여부를 설정해주세요)</span>
+	</h4>
 
 	<div class="ui top attached tabular menu">
 		<a class="active item" componentName="mocha">
@@ -80,6 +80,10 @@
 
 		<a class="item" componentName="backoffice">
 			talk-ui-backoffice
+		</a>
+
+		<a class="item" componentName="customer">
+			talk-ui-customer
 		</a>
 
 	</div>
@@ -158,7 +162,7 @@
 			</div>
 		</div>
 
-		<div class="field">
+		<!--<div class="field">
 			<label>Duplications</label>
 			<div class="ui right labeled left icon input">
 				<i class="tags icon"></i>
@@ -167,7 +171,7 @@
 					% 초과
 				</a>
 			</div>
-		</div>
+		</div>-->
 	</div>
 
 	<!-- shop -->
@@ -244,7 +248,7 @@
 			</div>
 		</div>
 
-		<div class="field">
+		<!--<div class="field">
 			<label>Duplications</label>
 			<div class="ui right labeled left icon input">
 				<i class="tags icon"></i>
@@ -253,7 +257,7 @@
 					% 초과
 				</a>
 			</div>
-		</div>
+		</div>-->
 	</div>
 
 
@@ -331,7 +335,7 @@
 			</div>
 		</div>
 
-		<div class="field">
+		<!--<div class="field">
 			<label>Duplications</label>
 			<div class="ui right labeled left icon input">
 				<i class="tags icon"></i>
@@ -340,20 +344,13 @@
 					% 초과
 				</a>
 			</div>
-		</div>
+		</div>-->
 	</div>
 
 
 
 	<!-- backoffice -->
 	<div class="ui bottom attached segment hide" componentName="backoffice">
-		<h3 class="ui dividing header">Jenkins Build 체크</h3>
-		<div class="field">
-			<div class="ui toggle checkbox">
-				<input type="checkbox" tabindex="0" id="saveUseFlagJenkins_Backoffice">
-				<label>사용여부</label>
-			</div>
-		</div>
 
 		<h3 class="ui dividing header">Sonarqube 품질 기준</h3>
 		<div class="field">
@@ -419,7 +416,7 @@
 			</div>
 		</div>
 
-		<div class="field">
+		<!--<div class="field">
 			<label>Duplications</label>
 			<div class="ui right labeled left icon input">
 				<i class="tags icon"></i>
@@ -428,15 +425,88 @@
 					% 초과
 				</a>
 			</div>
-		</div>
+		</div>-->
 	</div>
 
 
-	<div class="ui divider"></div>
+	<!-- customer -->
+	<div class="ui bottom attached segment hide" componentName="customer">
+
+		<h3 class="ui dividing header">Sonarqube 품질 기준</h3>
+		<div class="field">
+			<div class="ui toggle checkbox">
+				<input type="checkbox" tabindex="0" id="saveUseFlagSonar_Customer">
+				<label>사용여부</label>
+			</div>
+		</div>
 
 
+		<div class="field">
+			<label>Reliability > new bugs</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Bugs 개수" id="save_newBugs_Customer">
+				<a class="ui tag label">
+					개 초과
+				</a>
+			</div>
+		</div>
 
+		<div class="field">
+			<label>Security > New Vulnerabilities</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Vulnerabilities 개수" id="save_newVulnerabilities_Customer">
+				<a class="ui tag label">
+					개 초과
+				</a>
+			</div>
+		</div>
 
+		<div class="field">
+			<label>Security > New Security Hotspots</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Hotspots 개수" id="save_newSecurityHotspots_Customer">
+				<a class="ui tag label">
+					개 초과
+				</a>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Maintainability > New Code Smells</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Smells 개수" id="save_newCodeSmells_Customer">
+				<a class="ui tag label">
+					개 초과
+				</a>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Coverage</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Coverage Percentage" id="save_coverage_Customer">
+				<a class="ui tag label">
+					% 이하
+				</a>
+			</div>
+		</div>
+
+		<!--<div class="field">
+			<label>Duplications</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Duplications Percentage" id="save_duplicatedLinesDensity_Customer">
+				<a class="ui tag label">
+					% 초과
+				</a>
+			</div>
+		</div>-->
+	</div>
 	<div class="ui divider"></div>
 
 

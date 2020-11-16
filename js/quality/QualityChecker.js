@@ -28,7 +28,6 @@ class QualityChecker {
 			}
 		});
 
-
 /*
 
 		if (saveStorageSync['saveUseFlagSonar_Shop'] === 'Y') {

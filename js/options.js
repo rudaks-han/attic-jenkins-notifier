@@ -42,7 +42,7 @@ const inputItems = [
 	'save_newSecurityHotspots',
 	'save_newCodeSmells',
 	'save_coverage',
-	'save_duplicatedLinesDensity'
+	/*'save_duplicatedLinesDensity'*/
 ];
 
 /*const componentNames = [

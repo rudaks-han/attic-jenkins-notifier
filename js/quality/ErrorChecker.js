@@ -27,9 +27,9 @@ class ErrorChecker {
 			hasError = true;
 		}
 
-		if (this.checkHasError(result, MeasureConst.DUPLICATED_LINE_DENSITY, componentName)) {
+		/*if (this.checkHasError(result, MeasureConst.DUPLICATED_LINE_DENSITY, componentName)) {
 			hasError = true;
-		}
+		}*/
 
 		logger.debug('hasError: ' + hasError);
 

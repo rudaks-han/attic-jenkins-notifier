@@ -23,11 +23,11 @@ class NewCodeParser {
 				newCodeSmells = this.getValue(measure);
 			} else if (metric === 'new_coverage') {
 				coverage = this.getValue(measure);
-			} else if (metric === 'new_duplicated_lines_density') {
+			} /*else if (metric === 'new_duplicated_lines_density') {
 				duplicatedLinesDensity = this.getValue(measure);
 				duplicatedLinesDensity = Number(duplicatedLinesDensity);
 				duplicatedLinesDensity = duplicatedLinesDensity.toFixed(1);
-			}
+			}*/
 		});
 
 		// ATTIC_application
