@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="css/popup.css">
+	    <script type="text/javascript" src="js/lib/jquery-1.9.1.min.js"></script>
+        <script type="text/javascript" src="js/lib/semantic.min.js"></script>
+        <script src="js/lib/logger.js"></script>
+        <script src="js/lib/common.js"></script>
+	    <script type="text/javascript" src="js/popup.js"></script>
+        <script src="js/lib/storageSync.js"></script>
+        <script type="text/javascript" src="js/Const.js"></script>
+        <script type="text/javascript" src="js/quality/MeasureConst.js"></script>
+        <script type="text/javascript" src="js/quality/QualityChecker.js"></script>
+        <script type="text/javascript" src="js/quality/NewCodeParser.js"></script>
+        <script type="text/javascript" src="js/quality/ErrorChecker.js"></script>
+        <script src="js/jenkins/BuildChecker.js"></script>
+
+    </head>
+
+    <body>
+        <div class="ui cards">
+            <div class="card">
+                <div class="content">
+                    <i class="right floated" id="showOptions" style="cursor:pointer;" title="설정화면으로">
+                        <img src="/images/setting.png" />
+                    </i>
+                    <div class="header">
+                        Attic 품질현황
+                    </div>
+                    <div class="ui list">
+                        <a id="gotoJenkins" class="item">Jenkins 접속</a>
+                        <a id="gotoSonarqube" class="item">SonarQube 접속</a>
+                        <a id="gotoJira" class="item">Jira 접속</a>
+                    </div>
+                </div>
+
+                <div class="extra content">
+                <div class="ui" id="component-errors">
+
+                </div>
+
+            </div>
+                <div class="extra content">
+                    <div class="ui two buttons" style="margin-bottom:5px;">
+                        <div class="ui basic green button" id="checkQuality">품질현황 체크</div>
+                    </div>
+                    <div class="ui two buttons" style="margin-bottom:5px;">
+                        <div class="ui basic green button" id="checkBuild">Jenkins Build 체크</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+
+</html>

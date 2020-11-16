@@ -1,0 +1,29 @@
+{
+    "manifest_version" : 2,
+    "short_name": "Attic Project Jenkins notifier Extension",
+    "name" : "Attic Project Jenkins notifier",
+    "author": "rudaks",
+    "version": "0.0.18",
+    "description": "This extension measures the quality of the jenkins used in the attic project(internal) and informs the user.",
+    "content_security_policy": "script-src 'self'; object-src 'self'",
+	"browser_action": {
+		"default_icon": "images/happy.png",
+		"default_popup": "popup.html"
+    },
+    "icons": {
+      "16": "images/icon-16.png",
+      "48": "images/icon-48.png",
+      "128": "images/icon-128.png"
+    },
+    "permissions" : [
+        "notifications",
+		"background",
+		"storage",
+        "http://211.63.24.41:9000/api/**",
+        "http://211.63.24.41:8080/view/**"
+
+    ],
+    "background": {
+      "page": "background.html"
+    }
+}

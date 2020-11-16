@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html data-context="options-page">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+
+	<title class="i18n" data-msg="google_calendar_extension_name">Options</title>
+
+	<link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+	<script type="text/javascript" src="js/lib/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="js/lib/semantic.min.js"></script>
+	<script type="text/javascript" src="js/lib/common.js"></script>
+	<script type="text/javascript" src="js/Const.js"></script>
+	<script type="text/javascript" src="js/quality/MeasureConst.js"></script>
+	<script type="text/javascript" src="js/options.js"></script>
+	<style>
+		body {margin: 20px;}
+
+		.comment {
+			color: gray;
+			font-size: 13px;
+		}
+
+		.hide {
+			display:none;
+		}
+
+	</style>
+
+</head>
+<body>
+
+<form class="two ui form">
+
+	<h1 class="ui header">Attic 품질현황 기준</h1>
+	<div class="ui bulleted list">
+	</div>
+
+
+	<div class="ui divider"></div>
+
+	<h4 class="ui dividing header">품질현황 체크 사용여부</h4>
+	<div class="inline field">
+		<div class="ui toggle checkbox use-flag">
+			<input type="checkbox" tabindex="0" id="saveUseFlag">
+			<label>사용여부</label>
+		</div>
+	</div>
+
+	<h4 class="ui dividing header">알림 시간
+		<span class="comment">(알림 시간에 품질현황을 체크하여 알려줍니다)</span>
+	</h4>
+	<div class="two fields">
+		<div class="field">
+			<label>시</label>
+			<select id="saveSelectHour" class="ui search dropdown">
+			</select>
+		</div>
+		<div class="field">
+			<label>분</label>
+			<select id="saveSelectMinute" class="ui search dropdown">
+			</select>
+		</div>
+	</div>
+
+
+
+
+
+	<div class="ui top attached tabular menu">
+		<a class="active item" componentName="mocha">
+			talk-api-mocha
+		</a>
+		<a class="item" componentName="shop">
+			talk-api-shop
+		</a>
+
+		<a class="item" componentName="insight">
+			talk-api-insight
+		</a>
+
+		<a class="item" componentName="backoffice">
+			talk-ui-backoffice
+		</a>
+
+	</div>
+
+
+	<!-- mocha -->
+	<div class="ui bottom attached segment hide" componentName="mocha">
+		<h3 class="ui dividing header">Jenkins Build 체크</h3>
+		<div class="field">
+			<div class="ui toggle checkbox">
+				<input type="checkbox" tabindex="0" id="saveUseFlagJenkins_Mocha">
+				<label>사용여부</label>
+			</div>
+		</div>
+
+		<h3 class="ui dividing header">Sonarqube 품질 기준</h3>
+		<div class="field">
+			<div class="ui toggle checkbox">
+				<input type="checkbox" tabindex="0" id="saveUseFlagSonar_Mocha">
+				<label>사용여부</label>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Reliability > new bugs</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Bugs 개수" id="save_newBugs_Mocha">
+				<a class="ui tag label">
+					개 초과
+				</a>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Security > New Vulnerabilities</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Vulnerabilities 개수" id="save_newVulnerabilities_Mocha">
+				<a class="ui tag label">
+					개 초과
+				</a>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Security > New Security Hotspots</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Hotspots 개수" id="save_newSecurityHotspots_Mocha">
+				<a class="ui tag label">
+					개 초과
+				</a>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Maintainability > New Code Smells</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Smells 개수" id="save_newCodeSmells_Mocha">
+				<a class="ui tag label">
+					개 초과
+				</a>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Coverage</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Coverage Percentage" id="save_coverage_Mocha">
+				<a class="ui tag label">
+					% 이하
+				</a>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Duplications</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Duplications Percentage" id="save_duplicatedLinesDensity_Mocha">
+				<a class="ui tag label">
+					% 초과
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- shop -->
+	<div class="ui bottom attached segment hide" componentName="shop">
+		<h3 class="ui dividing header">Jenkins Build 체크</h3>
+		<div class="field">
+			<div class="ui toggle checkbox">
+				<input type="checkbox" tabindex="0" id="saveUseFlagJenkins_Shop">
+				<label>사용여부</label>
+			</div>
+		</div>
+
+		<h3 class="ui dividing header">Sonarqube 품질 기준</h3>
+		<div class="field">
+			<div class="ui toggle checkbox">
+				<input type="checkbox" tabindex="0" id="saveUseFlagSonar_Shop">
+				<label>사용여부</label>
+			</div>
+		</div>
+
+
+		<div class="field">
+			<label>Reliability > new bugs</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Bugs 개수" id="save_newBugs_Shop">
+				<a class="ui tag label">
+					개 초과
+				</a>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Security > New Vulnerabilities</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Vulnerabilities 개수" id="save_newVulnerabilities_Shop">
+				<a class="ui tag label">
+					개 초과
+				</a>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Security > New Security Hotspots</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Hotspots 개수" id="save_newSecurityHotspots_Shop">
+				<a class="ui tag label">
+					개 초과
+				</a>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Maintainability > New Code Smells</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Smells 개수" id="save_newCodeSmells_Shop">
+				<a class="ui tag label">
+					개 초과
+				</a>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Coverage</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Coverage Percentage" id="save_coverage_Shop">
+				<a class="ui tag label">
+					% 이하
+				</a>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Duplications</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Duplications Percentage" id="save_duplicatedLinesDensity_Shop">
+				<a class="ui tag label">
+					% 초과
+				</a>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- insight -->
+	<div class="ui bottom attached segment hide" componentName="insight">
+		<h3 class="ui dividing header">Jenkins Build 체크</h3>
+		<div class="field">
+			<div class="ui toggle checkbox">
+				<input type="checkbox" tabindex="0" id="saveUseFlagJenkins_Insight">
+				<label>사용여부</label>
+			</div>
+		</div>
+
+		<h3 class="ui dividing header">Sonarqube 품질 기준</h3>
+		<div class="field">
+			<div class="ui toggle checkbox">
+				<input type="checkbox" tabindex="0" id="saveUseFlagSonar_Insight">
+				<label>사용여부</label>
+			</div>
+		</div>
+
+
+		<div class="field">
+			<label>Reliability > new bugs</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Bugs 개수" id="save_newBugs_Insight">
+				<a class="ui tag label">
+					개 초과
+				</a>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Security > New Vulnerabilities</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Vulnerabilities 개수" id="save_newVulnerabilities_Insight">
+				<a class="ui tag label">
+					개 초과
+				</a>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Security > New Security Hotspots</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Hotspots 개수" id="save_newSecurityHotspots_Insight">
+				<a class="ui tag label">
+					개 초과
+				</a>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Maintainability > New Code Smells</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Smells 개수" id="save_newCodeSmells_Insight">
+				<a class="ui tag label">
+					개 초과
+				</a>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Coverage</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Coverage Percentage" id="save_coverage_Insight">
+				<a class="ui tag label">
+					% 이하
+				</a>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Duplications</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Duplications Percentage" id="save_duplicatedLinesDensity_Insight">
+				<a class="ui tag label">
+					% 초과
+				</a>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- backoffice -->
+	<div class="ui bottom attached segment hide" componentName="backoffice">
+		<h3 class="ui dividing header">Jenkins Build 체크</h3>
+		<div class="field">
+			<div class="ui toggle checkbox">
+				<input type="checkbox" tabindex="0" id="saveUseFlagJenkins_Backoffice">
+				<label>사용여부</label>
+			</div>
+		</div>
+
+		<h3 class="ui dividing header">Sonarqube 품질 기준</h3>
+		<div class="field">
+			<div class="ui toggle checkbox">
+				<input type="checkbox" tabindex="0" id="saveUseFlagSonar_Backoffice">
+				<label>사용여부</label>
+			</div>
+		</div>
+
+
+		<div class="field">
+			<label>Reliability > new bugs</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Bugs 개수" id="save_newBugs_Backoffice">
+				<a class="ui tag label">
+					개 초과
+				</a>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Security > New Vulnerabilities</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Vulnerabilities 개수" id="save_newVulnerabilities_Backoffice">
+				<a class="ui tag label">
+					개 초과
+				</a>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Security > New Security Hotspots</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Hotspots 개수" id="save_newSecurityHotspots_Backoffice">
+				<a class="ui tag label">
+					개 초과
+				</a>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Maintainability > New Code Smells</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Smells 개수" id="save_newCodeSmells_Backoffice">
+				<a class="ui tag label">
+					개 초과
+				</a>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Coverage</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Coverage Percentage" id="save_coverage_Backoffice">
+				<a class="ui tag label">
+					% 이하
+				</a>
+			</div>
+		</div>
+
+		<div class="field">
+			<label>Duplications</label>
+			<div class="ui right labeled left icon input">
+				<i class="tags icon"></i>
+				<input type="text" placeholder="Duplications Percentage" id="save_duplicatedLinesDensity_Backoffice">
+				<a class="ui tag label">
+					% 초과
+				</a>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="ui divider"></div>
+
+
+
+
+	<div class="ui divider"></div>
+
+
+
+
+
+
+
+	<div class="ui button primary" id="btnSave">저장하기</div>
+	<div class="ui button" id="btnReset">초기화</div>
+
+	<!--<<div class="ui button" id="btnNotification">Notification</div>-->
+
+
+</form>
+
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+
+</body>
+</html>
