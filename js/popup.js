@@ -48,7 +48,6 @@ function checkQuality() {
 					let hasError = false;
 					let messages = '';
 					responses.map(response => {
-						console.error(response)
 						if (response.hasError) {
 							hasError = true;
 							messages += '[' + response.componentName + '] <font color="red">Failed</font>' + '<br/>';

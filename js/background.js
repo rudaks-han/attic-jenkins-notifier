@@ -54,12 +54,12 @@ setInterval(() => {
 		}
 
 		if (!checkValidDate()) {
-			logger.info('not valid time')
+			logger.info('not valid time: ' + currDate)
 			return;
 		}
 
-		checkQuality(false);
-		checkBuild();
+		checkQuality(true);
+		checkBuild(true);
 	});
 
 }, interval);
@@ -71,23 +71,20 @@ function checkQuality(requireInteraction) {
 		qualityChecker.startCheck()
 			.then(responses => {
 				let hasError = false;
+				const title = '[Sonarqube Quality Gate]';
 				responses.map(response => {
-					console.error(response)
+					const componentName = response.componentName;
+
 					if (response.hasError) {
 						hasError = true;
-						//messages += '[' + response.componentName + '] Quality Failed' + '\n';
-						showBgNotification('', '[' + response.componentName + '] Quality Failed', requireInteraction, '/images/Angry-Face.png');
+						showBgNotification(title, '[' + componentName + '] Failed', requireInteraction, '/images/Angry-Face.png');
 					} else {
-						showBgNotification('', '[' + response.componentName + '] Quality Success', requireInteraction, '/images/happy.png');
+						showBgNotification(title, '[' + componentName + '] Success', requireInteraction, '/images/happy.png');
 					}
 				});
 
 				if (responses.length === 0) {
-					showBgNotification('', '설정된 Quality 항목이 없습니다.', requireInteraction);
-				} else {
-					if (!hasError) {
-						showBgNotification('', 'Quality All passed', requireInteraction);
-					}
+					showBgNotification(title, '설정된 Quality 항목이 없습니다.', requireInteraction);
 				}
 			});
 	});
@@ -100,27 +97,21 @@ function checkBuild(requireInteraction) {
 
 		buildChecker.startCheck()
 			.then(responses => {
-
-				console.error('checkBuild response ________ ')
-				console.error(responses)
-
 				let hasError = false;
+				const title = '[Jenkins Build]';
 				responses.map(response => {
+					const componentName = response.componentName;
+
 					if (response.hasError) {
 						hasError = true;
-						//messages += '[' + response.componentName + '] Failed' + '\n';
-						showBgNotification('', '[' + response.componentName + '] Build failed.', requireInteraction, '/images/Angry-Face.png');
+						showBgNotification(title, '[' + componentName + '] Failed.', requireInteraction, '/images/Angry-Face.png');
 					} else {
-						showBgNotification('', '[' + response.componentName + '] Quality Success', requireInteraction, '/images/happy.png');
+						showBgNotification(title, '[' + componentName + '] Success', requireInteraction, '/images/happy.png');
 					}
 				});
 
 				if (responses.length === 0) {
-					showBgNotification('', '설정된 Build 항목이 없습니다.', requireInteraction);
-				} else {
-					if (!hasError) {
-						showBgNotification('', 'All Build success', requireInteraction);
-					}
+					showBgNotification(title, '설정된 Build 항목이 없습니다.', requireInteraction);
 				}
 			});
 	});
@@ -147,8 +138,51 @@ function startChecking(callback)
 	saveAllStorageSync(callback);
 }
 
-let saveStorageSync = {};
 
+function initFirebase() {
+
+	componentNames.forEach((componentName) => {
+		const key = 'build-status/' + componentName.toLowerCase();
+
+		firebaseApp.get(key, snapshot => {
+			const _snapshot = snapshot.val();
+			if (_snapshot == null) {
+				return;
+			}
+
+			if (saveStorageSync['saveUseFlagJenkins_' + componentName] !== 'Y') {
+				console.log('saveUseFlagJenkins_' + componentName + ' : ' + saveStorageSync['saveUseFlagJenkins_' + componentName])
+				return;
+			}
+
+			const title = '[Jenkins Build]';
+			const date = _snapshot.date;
+			const result = _snapshot.result;
+			const storageId = 'jenkins-build-fail-' + componentName;
+
+			chrome.storage.local.get(storageId, function (items) {
+				if (items[storageId] !== date) {
+					showBgNotification(title, '[' + componentName + '] ' + result + ' - ' + date, true, '/images/Angry-Face.png');
+
+					const jsonValue = {};
+					jsonValue[storageId] = date;
+
+					chrome.storage.local.set(jsonValue, function () {
+						logger.info('storage saved: ' + JSON.stringify(jsonValue));
+					});
+				}
+			});
+		});
+	});
+
+}
+
+setTimeout(function() {
+	initFirebase();
+}, 1000);
+
+
+let saveStorageSync = {};
 //const SONARQUBE_CHECK_URL = `${SONARQUBE_URL}/api/measures/search_history?component=spectra.attic%3Aplatform&metrics=bugs%2Cvulnerabilities%2Csqale_index%2Cduplicated_lines_density%2Cncloc%2Ccoverage%2Ccode_smells&ps=1000`;
 
 /**
@@ -157,9 +191,9 @@ let saveStorageSync = {};
 const receiveMessage = function(request, sender, sendResponse)
 {
 	if (request.action === 'checkQuality') {
-		checkQuality(false);
+		checkQuality(true);
 	} else if (request.action === 'checkBuild') {
-		checkBuild(false);
+		checkBuild(true);
 	} else if (request.action === 'openWindow') {
 		window.open(request.url);
 	}

@@ -34,7 +34,6 @@ class BuildChecker {
 			});
 		})).then(responses => {
 			logger.debug('# ajax response')
-			//console.log(responses);
 			return responses.map(response => {
 				console.log('------- response ---------')
 				console.log(response)

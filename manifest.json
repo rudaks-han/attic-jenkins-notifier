@@ -5,7 +5,7 @@
     "author": "rudaks",
     "version": "0.0.18",
     "description": "This extension measures the quality of the jenkins used in the attic project(internal) and informs the user.",
-    "content_security_policy": "script-src 'self'; object-src 'self'",
+    "content_security_policy":"script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'",
 	"browser_action": {
 		"default_icon": "images/happy.png",
 		"default_popup": "popup.html"

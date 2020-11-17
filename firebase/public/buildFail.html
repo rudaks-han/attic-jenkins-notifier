@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase.js"></script>
+
+    <script src="/js/common.js"></script>
+    <script src="/js/FirebaseApp.js"></script>
+    <script>
+        function init() {
+            const component = getQueryString('component');
+
+            if (component) {
+                //const Key = 'build-status' + '/' + component;
+                const key = `build-status/${component}`;
+                const value = {
+                    date: getCurrDate() + ' ' + getCurrTime(),
+                    result: 'Fail'
+                }
+
+                firebaseApp.set(key, value);
+
+            } else {
+                console.log('component is null : ' + component)
+            }
+        }
+
+        init();
+    </script>
+</head>
+<body>
+</body>
+</html>

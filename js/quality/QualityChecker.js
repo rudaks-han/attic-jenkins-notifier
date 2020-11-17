@@ -55,12 +55,11 @@ class QualityChecker {
 			logger.debug(responses);
 
 			return responses.map(response => {
-				console.error('response.componentName : ' + response.componentName)
 				let componentName = response.componentName.split('-')[1]; // Pi-mocha
 
 				//componentName = componentName; // Pi-mocha
 				componentName = componentName.charAt(0).toUpperCase() + componentName.slice(1); // capitalize
-				console.error('componentName : ' + componentName)
+				logger.debug('componentName : ' + componentName)
 				/*if (response.componentName === 'Pi-mocha') {
 					componentName = 'Mocha';
 				} else if (response.componentName === 'Pi-shop') {
@@ -73,8 +72,6 @@ class QualityChecker {
 		}).then(responses => {
 			logger.debug('# ErrorChecker response')
 			logger.debug(responses);
-			console.error('response');
-			console.error(responses);
 
 			responses.map(response => {
 				console.log(response)
