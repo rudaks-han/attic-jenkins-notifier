@@ -36,30 +36,64 @@ function startChecking(callback)
 	saveAllStorageSync(callback);
 }
 
-function checkQuality() {
+function checkStatus() {
 	startChecking(() => {
+		console.error(saveStorageSync['saveUseFlag'])
 		if (saveStorageSync['saveUseFlag'] != 'Y') {
-			$('#component-errors').html('품질현황 체크: <font color="red">사용안함</font>');
-		} else {
-			const qualityChecker = new QualityChecker();
-
-			qualityChecker.startCheck()
-				.then(responses => {
-					let hasError = false;
-					let messages = '';
-					responses.map(response => {
-						if (response.hasError) {
-							hasError = true;
-							messages += '[' + response.componentName + '] <font color="red">Failed</font>' + '<br/>';
-						} else {
-							messages += '[' + response.componentName + '] <font color="blue">Passed</font>' + '<br/>';
-						}
-					});
-
-					$('#component-errors').html('<b>SonarQube Quality</b><br/>' + messages);
-				});
+			$('#component-status').html('품질현황 체크: <font color="red">사용안함</font>');
+			return;
 		}
+
+		let checkQualityResponse = [];
+
+		const checkQualityPromise = checkQuality();
+		const checkBuildPromise = checkBuild();
+
+		Promise.all([
+			checkQualityPromise,
+			checkBuildPromise
+		])
+			.then(responses => {
+				console.error('===== responses111');
+
+				let html = '';
+
+				const buildResults = responses[0];
+				const qualityGateResults = responses[1];
+
+				html += '<b>SonarQube Quality</b><br/>';
+				if (buildResults.length == 0) {
+					html += '설정값 없음<br/>';
+				} else {
+					buildResults.map(result => {
+						let text = result['hasError'] ? '<font color="red">Fail</font>' : '<font color="blue">Pass</font>';
+						html += '[' + result['componentName'] + '] <font color="blue">' + text + '</font>' + '<br/>';
+					});
+				}
+
+				html += '<br/><b>Jenkins Build</b><br/>';
+				if (qualityGateResults.length == 0) {
+					html += '설정값 없음<br/>';
+				} else {
+					qualityGateResults.map(result => {
+						let text = result['hasError'] ? '<font color="red">Fail</font>' : '<font color="blue">Pass</font>';
+						html += '[' + result['componentName'] + '] <font color="blue">' + text + '</font>' + '<br/>';
+					});
+				}
+
+				$('#component-status').html(html);
+			});
 	});
+}
+
+function checkQuality() {
+	const qualityChecker = new QualityChecker();
+	return qualityChecker.startCheck();
+}
+
+function checkBuild() {
+	const buildChecker = new BuildChecker();
+	return buildChecker.startCheck();
 }
 
 (function($) {
@@ -72,7 +106,7 @@ function checkQuality() {
 		$('#gotoJira').on('click', () => command.openWindow('https://enomix.atlassian.net/secure/RapidBoard.jspa?rapidView=41&projectKey=ATTP'));
 		$('#showOptions').on('click', command.showOptions);
 
-		checkQuality();
+		checkStatus();
     };
 
     $(load);
