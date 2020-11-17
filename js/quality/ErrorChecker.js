@@ -53,28 +53,6 @@ class ErrorChecker {
 		return false;
 	}
 
-	notify(componentName) {
-		this.showBrowserNotification(componentName, this.hasError, this.message);
-	}
-
-	showBrowserNotification(componentName, hasError, message) {
-		if (hasError) {
-			const requireInteraction = true;
-			showBgNotification(`[Failed] ${componentName} 품질체크 결과`, message, requireInteraction);
-
-			chrome.browserAction.setIcon({
-				path: '/images/sad.png'
-			});
-		} else {
-			showBgNotification(`[Passed] ${componentName} 품질체크 결과`, '정상입니다.');
-
-			chrome.browserAction.setIcon({
-				path: '/images/happy.png'
-			});
-		}
-
-	}
-
 	addComma(message) {
 		return message.length > 0 ? ', ' : '';
 	}

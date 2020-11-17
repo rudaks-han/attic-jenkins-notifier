@@ -183,7 +183,6 @@ setTimeout(function() {
 
 
 let saveStorageSync = {};
-//const SONARQUBE_CHECK_URL = `${SONARQUBE_URL}/api/measures/search_history?component=spectra.attic%3Aplatform&metrics=bugs%2Cvulnerabilities%2Csqale_index%2Cduplicated_lines_density%2Cncloc%2Ccoverage%2Ccode_smells&ps=1000`;
 
 /**
  * popup에서 오는 메시지를 받는 함수

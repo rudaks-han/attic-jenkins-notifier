@@ -5,5 +5,4 @@ class MeasureConst {
     static NEW_CODE_SMELLS = 'newCodeSmells';
     static COVERAGE = 'coverage';
     static DUPLICATED_LINE_DENSITY = 'duplicatedLinesDensity';
-
 }
