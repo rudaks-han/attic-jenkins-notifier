@@ -62,28 +62,28 @@ function checkStatus() {
 				const qualityGateResults = responses[1];
 
 				html += '<b>SonarQube Quality</b><br/>';
-				if (buildResults.length == 0) {
-					html += '설정값 없음<br/>';
-				} else {
-					buildResults.map(result => {
-						let text = result['hasError'] ? '<font color="red">Fail</font>' : '<font color="blue">Pass</font>';
-						html += '[' + result['componentName'] + '] <font color="blue">' + text + '</font>' + '<br/>';
-					});
-				}
+				html += renderHtml(buildResults);
 
 				html += '<br/><b>Jenkins Build</b><br/>';
-				if (qualityGateResults.length == 0) {
-					html += '설정값 없음<br/>';
-				} else {
-					qualityGateResults.map(result => {
-						let text = result['hasError'] ? '<font color="red">Fail</font>' : '<font color="blue">Pass</font>';
-						html += '[' + result['componentName'] + '] <font color="blue">' + text + '</font>' + '<br/>';
-					});
-				}
+				html += renderHtml(qualityGateResults);
 
 				$('#component-status').html(html);
 			});
 	});
+}
+
+function renderHtml(results) {
+	let html = '';
+	if (results.length == 0) {
+		html += '설정값 없음<br/>';
+	} else {
+		results.map(result => {
+			let text = result['hasError'] ? '<font color="red">Fail</font>' : '<font color="blue">Pass</font>';
+			html += '[' + result['componentName'] + '] <font color="blue">' + text + '</font>' + '<br/>';
+		});
+	}
+
+	return html;
 }
 
 function checkQuality() {
