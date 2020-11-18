@@ -9,11 +9,8 @@ class BuildChecker {
 	}
 
 	startCheck() {
-		let data = [];
-
 		const _user = this.user;
 		const _token = this.token;
-
 
 		let requestUrls = [];
 
@@ -41,15 +38,16 @@ class BuildChecker {
 
 				let hasError = false;
 				const componentName = response.fullDisplayName.split(' ')[0];
-				const value = response.result;
+				const result = response.result;
 
-				if (value !== 'SUCCESS') {
+				// build중일 때는 result가 null이다.
+				/*if (value !== 'SUCCESS') {
 					hasError = true;
-				}
+				}*/
 
 				return {
 					componentName,
-					hasError
+					result
 				};
 			});
 		})

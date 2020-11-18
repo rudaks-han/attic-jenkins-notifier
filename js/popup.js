@@ -38,7 +38,6 @@ function startChecking(callback)
 
 function checkStatus() {
 	startChecking(() => {
-		console.error(saveStorageSync['saveUseFlag'])
 		if (saveStorageSync['saveUseFlag'] != 'Y') {
 			$('#component-status').html('품질현황 체크: <font color="red">사용안함</font>');
 			return;
@@ -54,25 +53,44 @@ function checkStatus() {
 			checkBuildPromise
 		])
 			.then(responses => {
-				console.error('===== responses111');
-
 				let html = '';
 
 				const buildResults = responses[0];
 				const qualityGateResults = responses[1];
 
 				html += '<b>SonarQube Quality</b><br/>';
-				html += renderHtml(buildResults);
+				html += renderSonarHtml(buildResults);
 
 				html += '<br/><b>Jenkins Build</b><br/>';
-				html += renderHtml(qualityGateResults);
+				html += renderJenkinsHtml(qualityGateResults);
 
 				$('#component-status').html(html);
 			});
 	});
 }
 
-function renderHtml(results) {
+function renderJenkinsHtml(results) {
+	let html = '';
+	if (results.length == 0) {
+		html += '설정값 없음<br/>';
+	} else {
+		results.map(result => {
+			let text = '';
+			if (result['result'] === 'SUCCESS') {
+				text = '<font color="blue">Success</font>';
+			} else if (result['result'] === 'FAILURE') {
+				text = '<font color="red">Fail</font>';
+			} else {
+				text = '<font color="gray">Unknown</font>';
+			}
+			html += '[' + result['componentName'] + '] <font color="blue">' + text + '</font>' + '<br/>';
+		});
+	}
+
+	return html;
+}
+
+function renderSonarHtml(results) {
 	let html = '';
 	if (results.length == 0) {
 		html += '설정값 없음<br/>';
