@@ -1,5 +1,5 @@
-function showBgNotification(title, message, requireInteraction = false, iconUrl) {
-
+function showBgNotification(notificationId, title, message, requireInteraction = false, iconUrl) {
+	console.error('showBgNotification notificationId : ' + notificationId)
 	if (Notification && Notification.permission !== "granted") {
 		Notification.requestPermission(function (status) {
 			if (Notification.permission !== status) {
@@ -24,7 +24,6 @@ function showBgNotification(title, message, requireInteraction = false, iconUrl)
 		let id = new Date().getTime() + '' + title;
 		let options = {
 			type: 'basic',
-			//iconUrl: '/images/Angry-Face.png',
 			iconUrl: '/images/happy.png',
 			title: title,
 			message: message,
@@ -35,9 +34,16 @@ function showBgNotification(title, message, requireInteraction = false, iconUrl)
 			options.iconUrl = iconUrl;
 		}
 
-		chrome.notifications.create(options);
+		chrome.notifications.create(notificationId, options);
 	}
 }
+
+chrome.notifications.onClicked.addListener(function(notificationId) {
+	if (notificationId) {
+		chrome.tabs.create({url: notificationId});
+		chrome.notifications.clear(notificationId);
+	}
+});
 
 const interval = 1000*60;
 let currDate;
@@ -74,17 +80,15 @@ function checkQuality(requireInteraction) {
 				const title = '[Sonarqube Quality Gate]';
 				responses.map(response => {
 					const componentName = response.componentName;
-
 					if (response.hasError) {
-						hasError = true;
-						showBgNotification(title, '[' + componentName + '] Failed', requireInteraction, '/images/Angry-Face.png');
+						showBgNotification(sonarUrl[componentName], title, '[' + componentName + '] Failed', requireInteraction, '/images/Angry-Face.png');
 					} else {
-						showBgNotification(title, '[' + componentName + '] Success', requireInteraction, '/images/happy.png');
+						showBgNotification(sonarUrl[componentName], title, '[' + componentName + '] Success', requireInteraction, '/images/happy.png');
 					}
 				});
 
 				if (responses.length === 0) {
-					showBgNotification(title, '설정된 Quality 항목이 없습니다.', requireInteraction);
+					showBgNotification(null, title, '설정된 Quality 항목이 없습니다.', requireInteraction);
 				}
 			});
 	});
@@ -92,26 +96,22 @@ function checkQuality(requireInteraction) {
 
 function checkBuild(requireInteraction) {
 	startChecking(() => {
-
 		const buildChecker = new BuildChecker();
-
 		buildChecker.startCheck()
 			.then(responses => {
-				let hasError = false;
 				const title = '[Jenkins Build]';
 				responses.map(response => {
 					const componentName = response.componentName;
-
+					console.error('componentName : ' + componentName)
 					if (response.hasError) {
-						hasError = true;
-						showBgNotification(title, '[' + componentName + '] Failed.', requireInteraction, '/images/Angry-Face.png');
+						showBgNotification(jenkinsUrl[componentName], title, '[' + componentName + '] Failed.', requireInteraction, '/images/Angry-Face.png');
 					} else {
-						showBgNotification(title, '[' + componentName + '] Success', requireInteraction, '/images/happy.png');
+						showBgNotification(jenkinsUrl[componentName], title, '[' + componentName + '] Success', requireInteraction, '/images/happy.png');
 					}
 				});
 
 				if (responses.length === 0) {
-					showBgNotification(title, '설정된 Build 항목이 없습니다.', requireInteraction);
+					showBgNotification(null, title, '설정된 Build 항목이 없습니다.', requireInteraction);
 				}
 			});
 	});

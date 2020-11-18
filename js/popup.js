@@ -104,6 +104,7 @@ function checkBuild() {
 		$('#gotoJenkins').on('click', () => command.openWindow('http://211.63.24.41:8080/view/victory/'));
 		$('#gotoSonarqube').on('click', () => command.openWindow('http://211.63.24.41:9000/projects'));
 		$('#gotoJira').on('click', () => command.openWindow('https://enomix.atlassian.net/secure/RapidBoard.jspa?rapidView=41&projectKey=ATTP'));
+		$('#gotoUpsource').on('click', () => command.openWindow('http://172.16.100.45:8080/'));
 		$('#showOptions').on('click', command.showOptions);
 
 		checkStatus();
