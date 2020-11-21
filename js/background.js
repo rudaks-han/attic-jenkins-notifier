@@ -143,6 +143,7 @@ function initFirebase() {
 
 	componentNames.forEach((componentName) => {
 		const key = 'build-status/' + componentName.toLowerCase();
+		const requireInteraction = true;
 
 		firebaseApp.get(key, snapshot => {
 			const _snapshot = snapshot.val();
@@ -156,13 +157,13 @@ function initFirebase() {
 			}
 
 			const title = '[Jenkins Build]';
-			const date = _snapshot.date;
+			const date = _snapshot.date; // 2020-11-20 09:39:53
 			const result = _snapshot.result;
-			const storageId = 'jenkins-build-fail-' + componentName;
+			const storageId = 'jenkins-build-fail-' + componentName; // jenkins-build-fail-Mocha
 
 			chrome.storage.local.get(storageId, function (items) {
 				if (items[storageId] !== date) {
-					showBgNotification(title, '[' + componentName + '] ' + result + ' - ' + date, true, '/images/Angry-Face.png');
+					showBgNotification(jenkinsUrl[componentName], title, '[' + componentName + '] Failed', requireInteraction, '/images/Angry-Face.png');
 
 					const jsonValue = {};
 					jsonValue[storageId] = date;
@@ -174,11 +175,14 @@ function initFirebase() {
 			});
 		});
 	});
-
 }
 
 setTimeout(function() {
-	initFirebase();
+
+	startChecking(() => {
+		initFirebase();
+	});
+
 }, 1000);
 
 

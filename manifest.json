@@ -3,7 +3,7 @@
     "short_name": "Attic Project Jenkins notifier Extension",
     "name" : "Attic Project Jenkins notifier",
     "author": "rudaks",
-    "version": "0.0.20",
+    "version": "0.0.21",
     "description": "This extension measures the quality of the jenkins used in the attic project(internal) and informs the user.",
     "content_security_policy":"script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'",
 	"browser_action": {
