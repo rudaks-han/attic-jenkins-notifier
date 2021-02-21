@@ -64,13 +64,13 @@ setInterval(() => {
 			return;
 		}
 
-		checkQuality(true);
-		checkBuild(true);
+		checkQuality(true, true);
+		checkBuild(true, true);
 	});
 
 }, interval);
 
-function checkQuality(requireInteraction) {
+function checkQuality(requireInteraction, backgroundProcess) {
 	startChecking(() => {
 		const qualityChecker = new QualityChecker();
 
@@ -83,7 +83,9 @@ function checkQuality(requireInteraction) {
 					if (response.hasError) {
 						showBgNotification(sonarUrl[componentName], title, '[' + componentName + '] Failed', requireInteraction, '/images/Angry-Face.png');
 					} else {
-						showBgNotification(sonarUrl[componentName], title, '[' + componentName + '] Success', requireInteraction, '/images/happy.png');
+						if (!backgroundProcess) {
+							showBgNotification(sonarUrl[componentName], title, '[' + componentName + '] Success', requireInteraction, '/images/happy.png');
+						}
 					}
 				});
 
@@ -94,7 +96,7 @@ function checkQuality(requireInteraction) {
 	});
 }
 
-function checkBuild(requireInteraction) {
+function checkBuild(requireInteraction, backgroundProcess) {
 	startChecking(() => {
 		const buildChecker = new BuildChecker();
 		buildChecker.startCheck()
@@ -106,7 +108,9 @@ function checkBuild(requireInteraction) {
 					if (response.hasError) {
 						showBgNotification(jenkinsUrl[componentName], title, '[' + componentName + '] Failed.', requireInteraction, '/images/Angry-Face.png');
 					} else {
-						showBgNotification(jenkinsUrl[componentName], title, '[' + componentName + '] Success', requireInteraction, '/images/happy.png');
+						if (!backgroundProcess) {
+							showBgNotification(jenkinsUrl[componentName], title, '[' + componentName + '] Success', requireInteraction, '/images/happy.png');
+						}
 					}
 				});
 
@@ -190,9 +194,9 @@ let saveStorageSync = {};
 const receiveMessage = function(request, sender, sendResponse)
 {
 	if (request.action === 'checkQuality') {
-		checkQuality(true);
+		checkQuality(true, false);
 	} else if (request.action === 'checkBuild') {
-		checkBuild(true);
+		checkBuild(true, false);
 	} else if (request.action === 'openWindow') {
 		window.open(request.url);
 	}
